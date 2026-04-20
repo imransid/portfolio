@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public read for portfolio copy; writes go through the Admin SDK (API routes).
+    match /portfolio/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
