@@ -145,6 +145,8 @@ export type PortfolioData = {
     blurb: string;
     primaryEmailLabel: string;
     primaryEmail: string;
+    /** Public site / CV — optional; empty omits portfolio link in generated CV. */
+    portfolioUrl: string;
     channels: ContactChannel[];
   };
   footer: {

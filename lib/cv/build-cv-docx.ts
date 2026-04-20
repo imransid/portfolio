@@ -410,6 +410,7 @@ function educationBlocks(): Paragraph[] {
 
 export async function portfolioToCvBuffer(data: PortfolioData): Promise<Buffer> {
   const { phone, email, location } = contactLineParts(data);
+  const portfolio = (data.contact.portfolioUrl ?? '').trim();
   const linkedin = data.footer.linkedinHref || findChannel(data.contact.channels, 'linkedin')?.href || '';
   const github = data.footer.githubHref || findChannel(data.contact.channels, 'github')?.href || '';
 
@@ -508,50 +509,47 @@ export async function portfolioToCvBuffer(data: PortfolioData): Promise<Buffer> 
     }),
   );
 
-  children.push(
-    new Paragraph({
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 20 },
-      children: [
-        ...(linkedin
-          ? [
-              new ExternalHyperlink({
-                link: linkedin,
-                children: [
-                  new TextRun({
-                    text: 'LinkedIn',
-                    color: BLUE,
-                    size: SZ.contact,
-                    font: 'Arial',
-                    underline: {},
-                  }),
-                ],
-              }),
-            ]
-          : []),
+  const headerLinkSegments: { label: string; url: string }[] = [];
+  if (portfolio) headerLinkSegments.push({ label: 'Portfolio', url: portfolio });
+  if (linkedin) headerLinkSegments.push({ label: 'LinkedIn', url: linkedin });
+  if (github) headerLinkSegments.push({ label: 'GitHub', url: github });
+
+  const headerLinkChildren: (TextRun | ExternalHyperlink)[] = [];
+  for (let i = 0; i < headerLinkSegments.length; i++) {
+    if (i > 0) {
+      headerLinkChildren.push(
         new TextRun({
-          text: linkedin && github ? SEP : '',
+          text: SEP,
           color: GRAY,
           size: SZ.contact,
           font: 'Arial',
         }),
-        ...(github
-          ? [
-              new ExternalHyperlink({
-                link: github,
-                children: [
-                  new TextRun({
-                    text: 'GitHub',
-                    color: BLUE,
-                    size: SZ.contact,
-                    font: 'Arial',
-                    underline: {},
-                  }),
-                ],
-              }),
-            ]
-          : []),
-      ],
+      );
+    }
+    const seg = headerLinkSegments[i];
+    headerLinkChildren.push(
+      new ExternalHyperlink({
+        link: seg.url,
+        children: [
+          new TextRun({
+            text: seg.label,
+            color: BLUE,
+            size: SZ.contact,
+            font: 'Arial',
+            underline: {},
+          }),
+        ],
+      }),
+    );
+  }
+
+  children.push(
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 20 },
+      children: headerLinkChildren.length
+        ? headerLinkChildren
+        : [new TextRun({ text: ' ', size: SZ.contact, font: 'Arial' })],
     }),
   );
 

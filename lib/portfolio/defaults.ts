@@ -400,6 +400,7 @@ export const defaultPortfolioData: PortfolioData = {
       "I'm open to lead and senior remote roles, contract work and long-term collaborations. Fastest reply is email — I check it first thing, Dhaka time.",
     primaryEmailLabel: 'Primary · Email',
     primaryEmail: 'emailofimran1992@gmail.com',
+    portfolioUrl: 'https://imran-khan-chi.vercel.app/',
     channels: [
       {
         label: 'Email',

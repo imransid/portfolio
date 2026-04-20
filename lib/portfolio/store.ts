@@ -47,6 +47,20 @@ function str(v: unknown, fallback: string): string {
   return typeof v === 'string' ? v : fallback;
 }
 
+/** Optional https URL: empty allowed; invalid or non-https rejected to empty. */
+function normalizeHttpsPortfolioUrl(v: unknown, fallbackWhenMissing: string): string {
+  if (typeof v !== 'string') return fallbackWhenMissing;
+  const s = v.trim();
+  if (!s) return '';
+  if (!s.startsWith('https://')) return '';
+  try {
+    const u = new URL(s);
+    return u.href;
+  } catch {
+    return '';
+  }
+}
+
 function strArr(v: unknown, fallback: string[]): string[] {
   if (!Array.isArray(v)) return fallback;
   const out = v.filter((x): x is string => typeof x === 'string');
@@ -351,6 +365,10 @@ export function normalizePortfolioData(input: unknown): PortfolioData {
         d.contact.primaryEmailLabel,
       ),
       primaryEmail: str(contact.primaryEmail, d.contact.primaryEmail),
+      portfolioUrl: normalizeHttpsPortfolioUrl(
+        contact.portfolioUrl,
+        d.contact.portfolioUrl,
+      ),
       channels: normalizeChannels(contact.channels, d.contact.channels),
     },
     footer: {

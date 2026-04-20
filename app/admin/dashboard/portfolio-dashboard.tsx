@@ -322,6 +322,11 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
 
   const onSave = useCallback(async () => {
     setError('');
+    const pu = (data.contact.portfolioUrl ?? '').trim();
+    if (pu && !pu.startsWith('https://')) {
+      setError('Portfolio URL must start with https:// or be empty.');
+      return;
+    }
     setLoading(true);
     setSaved(false);
     try {
@@ -1968,6 +1973,39 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
                     }}
                   />
                 </div>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <TextField
+                    label="Portfolio URL"
+                    description={
+                      (data.contact.portfolioUrl ?? '').trim() !== '' &&
+                      !(data.contact.portfolioUrl ?? '').trim().startsWith('https://')
+                        ? 'Must start with https:// or leave empty.'
+                        : 'CV header link (optional). Must start with https:// or leave empty.'
+                    }
+                    placeholder="https://"
+                    value={data.contact.portfolioUrl ?? ''}
+                    onChange={(v) => {
+                      setData((d) => ({ ...d, contact: { ...d.contact, portfolioUrl: v } }));
+                      touch();
+                    }}
+                  />
+                  <TextField
+                    label="LinkedIn URL"
+                    value={data.footer.linkedinHref}
+                    onChange={(v) => {
+                      setData((d) => ({ ...d, footer: { ...d.footer, linkedinHref: v } }));
+                      touch();
+                    }}
+                  />
+                  <TextField
+                    label="GitHub URL"
+                    value={data.footer.githubHref}
+                    onChange={(v) => {
+                      setData((d) => ({ ...d, footer: { ...d.footer, githubHref: v } }));
+                      touch();
+                    }}
+                  />
+                </div>
                 <div className="border-t border-bone/10 pt-4">
                   <div className="mb-3 flex justify-between">
                     <h3 className="text-sm font-medium text-bone">Channels</h3>
@@ -2103,8 +2141,6 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
                       ['copyrightName', 'Copyright name'],
                       ['statusLabel', 'Status label'],
                       ['builtLine', 'Built line'],
-                      ['githubHref', 'GitHub URL'],
-                      ['linkedinHref', 'LinkedIn URL'],
                       ['emailHref', 'Email mailto URL'],
                     ] as const
                   ).map(([key, label]) => (
