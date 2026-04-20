@@ -228,6 +228,27 @@ export const defaultPortfolioData: PortfolioData = {
         accent: 'from-bone/10 to-transparent',
         number: '04',
       },
+      {
+        name: 'Playzone',
+        tagline: 'Real-time multiplayer. Classic games. Zero friction.',
+        description:
+          'A real-time multiplayer gaming platform where users play classic childhood games with friends — no signups, no lag, just instant play. Built on a microservices architecture with NestJS handling game logic and matchmaking, PostgreSQL for persistence, and Socket.IO powering sub-second real-time state sync between players. The Next.js frontend delivers a mobile-first, ad-free experience, and the entire system is containerized with Docker for consistent deployment across environments.',
+        period: '2024 — Present',
+        category: 'Full-Stack · Real-Time Web App',
+        tech: [
+          'Next.js',
+          'TypeScript',
+          'NestJS',
+          'Socket.IO',
+          'PostgreSQL',
+          'Docker',
+          'Microservices',
+          'Tailwind CSS',
+        ],
+        links: [{ label: 'Live demo', url: 'https://playzone-update.vercel.app/' }],
+        accent: 'from-amber-glow/30 to-transparent',
+        number: '05',
+      },
     ],
     more: [
       {
@@ -249,7 +270,7 @@ export const defaultPortfolioData: PortfolioData = {
           },
         ],
         accent: '',
-        number: '05',
+        number: '06',
       },
       {
         name: 'IQApp Test',
@@ -261,7 +282,7 @@ export const defaultPortfolioData: PortfolioData = {
         tech: ['React Native', 'GraphQL', 'Stripe', 'Django'],
         links: [],
         accent: '',
-        number: '06',
+        number: '07',
       },
       {
         name: 'NIdle Finishing',
@@ -273,7 +294,7 @@ export const defaultPortfolioData: PortfolioData = {
         tech: ['React Native', 'GraphQL', 'NestJS'],
         links: [{ label: 'Case study', url: 'https://intellier.com/nidle/' }],
         accent: '',
-        number: '07',
+        number: '08',
       },
       {
         name: 'Team Pharma',
@@ -285,7 +306,7 @@ export const defaultPortfolioData: PortfolioData = {
         tech: ['React Native', 'NestJS', 'PostgreSQL', 'Firebase'],
         links: [{ label: 'Live site', url: 'https://teampharmabd.com/' }],
         accent: '',
-        number: '08',
+        number: '09',
       },
       {
         name: 'JTI Sheikh App',
@@ -297,7 +318,7 @@ export const defaultPortfolioData: PortfolioData = {
         tech: ['React Native', 'Deep AR', 'Redux-Saga'],
         links: [],
         accent: '',
-        number: '09',
+        number: '10',
       },
       {
         name: 'Converter & Wallet',
@@ -314,7 +335,7 @@ export const defaultPortfolioData: PortfolioData = {
           },
         ],
         accent: '',
-        number: '10',
+        number: '11',
       },
     ],
   },

@@ -12,6 +12,19 @@ import { getFirestore, type Firestore } from 'firebase-admin/firestore';
 /** Only set after a successful Firestore connection (failed lookups are retried). */
 let firestoreDb: Firestore | undefined;
 
+let firestoreSettingsApplied = false;
+
+function applyFirestoreSettings(db: Firestore) {
+  if (firestoreSettingsApplied) return;
+  try {
+    db.settings({ ignoreUndefinedProperties: true });
+  } catch {
+    /* already locked or duplicate settings() */
+  } finally {
+    firestoreSettingsApplied = true;
+  }
+}
+
 let loggedMissingCredentials = false;
 
 function devWarn(message: string) {
@@ -249,11 +262,26 @@ export function getFirestoreServer(): Firestore | null {
       app = initializeApp({ credential: cert(account) });
     }
     firestoreDb = getFirestore(app);
+    applyFirestoreSettings(firestoreDb);
     return firestoreDb;
   } catch (e) {
     devWarn(
       `Firebase Admin init failed: ${e instanceof Error ? e.message : String(e)}`,
     );
+    // Concurrent cold starts: another request may have created [DEFAULT] between
+    // `getApps().length` and `initializeApp`, causing "already exists" here.
+    try {
+      if (getApps().length > 0) {
+        const app = getApps()[0]!;
+        firestoreDb = getFirestore(app);
+        applyFirestoreSettings(firestoreDb);
+        return firestoreDb;
+      }
+    } catch (e2) {
+      devWarn(
+        `Firebase Admin init recovery failed: ${e2 instanceof Error ? e2.message : String(e2)}`,
+      );
+    }
     return null;
   }
 }

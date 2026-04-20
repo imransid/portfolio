@@ -24,6 +24,9 @@ const FIRESTORE_COLLECTION = 'portfolio';
 const FIRESTORE_DOC_MAIN = 'main';
 const FIRESTORE_DOC_LEGACY_SITE = 'siteContent';
 
+/** Where `writePortfolioData` actually wrote the document. */
+export type PortfolioPersistTarget = 'firestore' | 'local';
+
 /** Every key we expect on `portfolio/main` for a complete portfolio payload. */
 const TOP_LEVEL_PORTFOLIO_KEYS: (keyof PortfolioData)[] = [
   'version',
@@ -116,40 +119,80 @@ function normalizeProjectLinks(raw: unknown): ProjectLink[] {
   for (const it of raw) {
     if (!isRecord(it)) continue;
     const label = str(it.label, '');
-    const url = str(it.url, '');
+    const url = str(it.url, '') || str(it.href, '');
     if (label && url) out.push({ label, url });
   }
   return out;
 }
 
-function isProject(x: unknown): x is Project {
-  if (!isRecord(x)) return false;
-  return (
-    typeof x.name === 'string' &&
-    typeof x.tagline === 'string' &&
-    typeof x.description === 'string' &&
-    typeof x.period === 'string' &&
-    typeof x.category === 'string' &&
-    Array.isArray(x.tech) &&
-    typeof x.number === 'string'
-  );
+/** Admin / Firestore may store tech as string[] or a single comma-separated string. */
+function normalizeProjectTech(raw: unknown): string[] {
+  if (Array.isArray(raw)) {
+    return raw
+      .filter((x): x is string => typeof x === 'string')
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  if (typeof raw === 'string') {
+    return raw
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+/**
+ * Prefer own `tech`; if the key is absent, accept `techStack` (common in hand-written JSON).
+ * Uses `hasOwnProperty` so we do not read inherited `tech` and ignore an explicit `tech: []`.
+ */
+function normalizeProjectTechFromRecord(it: Record<string, unknown>): string[] {
+  if (!Object.prototype.hasOwnProperty.call(it, 'tech')) {
+    return normalizeProjectTech(it.techStack);
+  }
+  return normalizeProjectTech(it.tech);
+}
+
+function projectBadgeNumber(
+  raw: unknown,
+  fallbackIndex1Based: number,
+): string {
+  if (typeof raw === 'string') {
+    const t = raw.trim();
+    if (t) return t;
+  }
+  if (typeof raw === 'number' && Number.isFinite(raw)) {
+    const n = Math.trunc(raw);
+    if (n >= 0 && n <= 99) return String(n).padStart(2, '0');
+  }
+  return String(fallbackIndex1Based).padStart(2, '0');
+}
+
+function projectNameFromUnknown(it: Record<string, unknown>): string {
+  const n = it.name;
+  if (typeof n === 'string') return n;
+  if (typeof n === 'number' && Number.isFinite(n)) return String(n);
+  return '';
 }
 
 function normalizeProjects(raw: unknown, def: Project[]): Project[] {
   if (!Array.isArray(raw)) return def;
   const out: Project[] = [];
   for (const it of raw) {
-    if (!isProject(it)) continue;
+    if (!isRecord(it)) continue;
+    if (Object.keys(it).length === 0) continue;
+    const name = projectNameFromUnknown(it);
+    const number = projectBadgeNumber(it.number, out.length + 1);
     out.push({
-      name: it.name,
-      tagline: it.tagline,
-      description: it.description,
-      period: it.period,
-      category: it.category,
-      tech: strArr(it.tech, []),
+      name,
+      tagline: str(it.tagline, ''),
+      description: str(it.description, ''),
+      period: str(it.period, ''),
+      category: str(it.category, ''),
+      tech: normalizeProjectTechFromRecord(it),
       links: normalizeProjectLinks(it.links),
-      accent: typeof it.accent === 'string' ? it.accent : '',
-      number: it.number,
+      accent: str(it.accent, ''),
+      number,
     });
   }
   return out.length ? out : def;
@@ -457,6 +500,14 @@ async function readLegacyFirestoreSite(
 }
 
 /**
+ * Firestore rejects `undefined` in nested maps; JSON round-trip drops those keys
+ * and guarantees plain serializable data (also strips any stray non-JSON values).
+ */
+function toFirestoreSafeDocument(data: PortfolioData): Record<string, unknown> {
+  return JSON.parse(JSON.stringify(data)) as Record<string, unknown>;
+}
+
+/**
  * Full portfolio document for the public site and admin merges.
  * Firestore: `portfolio/main`.
  *
@@ -486,31 +537,42 @@ export async function getPortfolioData(): Promise<PortfolioData> {
     const legacySite = await readLegacyFirestoreSite(db);
     if (legacySite) seed = { ...seed, site: { ...seed.site, ...legacySite } };
     const full = normalizePortfolioData(seed);
-    await ref.set(full);
+    await ref.set(toFirestoreSafeDocument(full));
     return full;
   }
 
   const normalized = normalizePortfolioData(raw);
 
   if (isPortfolioStructureIncomplete(raw)) {
-    await ref.set(normalized);
+    await ref.set(toFirestoreSafeDocument(normalized));
     return normalized;
   }
 
   return normalized;
 }
 
-export async function writePortfolioData(data: PortfolioData): Promise<void> {
+export async function writePortfolioData(
+  data: PortfolioData,
+): Promise<PortfolioPersistTarget> {
   const normalized = normalizePortfolioData(data);
+  const payload = toFirestoreSafeDocument(normalized);
   const db = getFirestoreServer();
   if (!db) {
-    writePortfolioJsonFile(normalized);
-    return;
+    writePortfolioJsonFile(payload as PortfolioData);
+    return 'local';
   }
-  await db
-    .collection(FIRESTORE_COLLECTION)
-    .doc(FIRESTORE_DOC_MAIN)
-    .set(normalized);
+  try {
+    await db
+      .collection(FIRESTORE_COLLECTION)
+      .doc(FIRESTORE_DOC_MAIN)
+      .set(payload);
+    return 'firestore';
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    throw new Error(
+      `Firestore write to portfolio/main failed: ${msg}. Check the service account has Editor (or Cloud Datastore User) on this project and that the payload is valid.`,
+    );
+  }
 }
 
 /**
@@ -528,6 +590,9 @@ export async function writeDefaultPortfolioToFirestore(): Promise<PortfolioData>
   const legacySite = await readLegacyFirestoreSite(db);
   if (legacySite) seed = { ...seed, site: { ...seed.site, ...legacySite } };
   const full = normalizePortfolioData(seed);
-  await db.collection(FIRESTORE_COLLECTION).doc(FIRESTORE_DOC_MAIN).set(full);
+  await db
+    .collection(FIRESTORE_COLLECTION)
+    .doc(FIRESTORE_DOC_MAIN)
+    .set(toFirestoreSafeDocument(full));
   return full;
 }

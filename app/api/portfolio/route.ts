@@ -11,6 +11,8 @@ import {
 } from '@/lib/portfolio/store';
 
 export const dynamic = 'force-dynamic';
+/** Firebase Admin requires Node; avoids any accidental Edge bundle. */
+export const runtime = 'nodejs';
 
 export async function GET() {
   const token = cookies().get(ADMIN_SESSION_COOKIE)?.value;
@@ -35,6 +37,13 @@ export async function PUT(request: Request) {
   }
 
   const normalized = normalizePortfolioData(body);
-  await writePortfolioData(normalized);
-  return NextResponse.json(normalized);
+  try {
+    const persistedTo = await writePortfolioData(normalized);
+    const res = NextResponse.json(normalized);
+    res.headers.set('X-Portfolio-Persisted-To', persistedTo);
+    return res;
+  } catch (e) {
+    const message = e instanceof Error ? e.message : 'Save failed';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

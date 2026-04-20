@@ -158,7 +158,7 @@ function CommaField({
       {hint ? <span className={`block ${LABEL_HINT}`}>{hint}</span> : null}
       <input
         type="text"
-        value={values.join(', ')}
+        value={(values ?? []).join(', ')}
         onChange={(e) =>
           onChange(
             e.target.value
@@ -243,6 +243,7 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
   const [dirty, setDirty] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
+  const [storageWarning, setStorageWarning] = useState('');
   const [loading, setLoading] = useState(false);
   const [seedMsg, setSeedMsg] = useState('');
   const [seedErr, setSeedErr] = useState('');
@@ -322,6 +323,7 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
 
   const onSave = useCallback(async () => {
     setError('');
+    setStorageWarning('');
     const pu = (data.contact.portfolioUrl ?? '').trim();
     if (pu && !pu.startsWith('https://')) {
       setError('Portfolio URL must start with https:// or be empty.');
@@ -332,6 +334,7 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
     try {
       const res = await fetch('/api/portfolio', {
         method: 'PUT',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
@@ -340,15 +343,21 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
         setError(j.error || 'Save failed');
         return;
       }
+      const persistedTo = res.headers.get('X-Portfolio-Persisted-To');
       const next = (await res.json()) as PortfolioData;
       setData(next);
       setDirty(false);
       setSaved(true);
+      if (firestoreConfigured && persistedTo === 'local') {
+        setStorageWarning(
+          'This save went to data/portfolio.json only — Firestore was not updated (often a cold-start race or missing Admin credentials on this server). Try Save again, or confirm FIREBASE_SERVICE_ACCOUNT_KEY / FIREBASE_SERVICE_ACCOUNT_PATH on your host matches the Firebase project you are viewing in the console.',
+        );
+      }
       router.refresh();
     } finally {
       setLoading(false);
     }
-  }, [data, router]);
+  }, [data, router, firestoreConfigured]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -367,6 +376,7 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
     setDirty(false);
     setSaved(false);
     setError('');
+    setStorageWarning('');
   }
 
   async function onLogout() {
@@ -404,7 +414,7 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
         return;
       }
       setSeedMsg(body.message || 'Firestore updated.');
-      const refreshed = await fetch('/api/portfolio');
+      const refreshed = await fetch('/api/portfolio', { credentials: 'include' });
       if (refreshed.ok) {
         setData((await refreshed.json()) as PortfolioData);
         setDirty(false);
@@ -701,6 +711,14 @@ export default function PortfolioDashboard({ initial, firestoreConfigured }: Pro
             {error ? (
               <p className="mb-6 rounded-xl border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm text-red-200" role="alert">
                 {error}
+              </p>
+            ) : null}
+            {storageWarning ? (
+              <p
+                className="mb-6 rounded-xl border border-amber-glow/35 bg-amber-glow/10 px-4 py-3 text-sm text-bone"
+                role="status"
+              >
+                {storageWarning}
               </p>
             ) : null}
 
