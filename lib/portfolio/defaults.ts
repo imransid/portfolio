@@ -428,6 +428,24 @@ export const defaultPortfolioData: PortfolioData = {
         number: '14',
         status: 'Live',
       },
+      {
+        name: 'Bidesh App',
+        tagline: 'Education & jobs abroad',
+        description:
+          'Built Bidesh App, a Jumatechs app live on Google Play: assistance for education and jobs abroad, on a React Native front end with a Django and PostgreSQL backend.',
+        period: '',
+        category: 'Consumer Mobile',
+        tech: ['React Native', 'Redux', 'Reanimated', 'Firebase', 'Django', 'PostgreSQL'],
+        links: [
+          {
+            label: 'Google Play',
+            url: 'https://play.google.com/store/apps/details?id=com.jumatechengineering.bidesh_app',
+          },
+        ],
+        accent: '',
+        number: '15',
+        status: 'Live',
+      },
     ],
     archiveLine:
       'Also shipped: Team Pharma (NestJS microservices, 2024), JTI Sheikh (Deep AR, 2021).',
