@@ -197,6 +197,19 @@ export const defaultPortfolioData: PortfolioData = {
         status: 'In production',
       },
       {
+        name: 'WarmChats',
+        tagline: 'Real estate agent CRM',
+        description:
+          'AI CRM for real estate agents: instant SMS, email and call response, automatic lead qualification and follow-up. Backend lead. Django CRM core, NestJS and Flask services, Telnyx voice/SMS, Claude AI for the messaging.',
+        period: '',
+        category: 'AI CRM',
+        tech: ['Django', 'NestJS', 'Flask', 'Telnyx', 'Claude AI'],
+        links: [{ label: 'warmchats.com', url: 'https://www.warmchats.com' }],
+        accent: '',
+        number: '09',
+        status: 'Live',
+      },
+      {
         name: 'Balanzify',
         tagline: 'HR & Payroll Microservices',
         description:
