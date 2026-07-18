@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { Fraunces, JetBrains_Mono, Inter } from 'next/font/google';
+import { Fraunces, JetBrains_Mono, Inter, Martian_Mono } from 'next/font/google';
 import './globals.css';
 import FirebaseAnalytics from './components/FirebaseAnalytics';
 import { getPortfolioData } from '@/lib/portfolio/store';
+import { interpolateForDisplay } from '@/lib/portfolio/derived';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -16,6 +17,13 @@ const jetbrains = JetBrains_Mono({
   display: 'swap',
 });
 
+// Instrument-label display face for the redesigned hero (monospace, wide grid).
+const martian = Martian_Mono({
+  subsets: ['latin'],
+  variable: '--font-martian',
+  display: 'swap',
+});
+
 // Neutral sans for body copy.
 const bodySans = Inter({
   subsets: ['latin'],
@@ -24,7 +32,7 @@ const bodySans = Inter({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const p = await getPortfolioData();
+  const p = interpolateForDisplay(await getPortfolioData());
   const authorName = `${p.site.firstName} ${p.site.lastName}`.trim();
   return {
     title: p.seo.title,
@@ -47,11 +55,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${jetbrains.variable} ${bodySans.variable}`}
+      className={`${fraunces.variable} ${jetbrains.variable} ${bodySans.variable} ${martian.variable}`}
     >
       <body className="bg-ink-deep text-bone antialiased">
         <FirebaseAnalytics />
-        <div className="grain" aria-hidden="true" />
         {children}
       </body>
     </html>

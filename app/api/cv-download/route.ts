@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cvDownloadFilename, portfolioToCvBuffer } from '@/lib/cv/build-cv-docx';
 import { getPortfolioData } from '@/lib/portfolio/store';
+import { interpolateForDisplay } from '@/lib/portfolio/derived';
 
 export const dynamic = 'force-dynamic';
 /** Firebase Admin + `docx` require Node (not Edge). */
@@ -12,7 +13,7 @@ export const runtime = 'nodejs';
  */
 export async function GET() {
   try {
-    const data = await getPortfolioData();
+    const data = interpolateForDisplay(await getPortfolioData());
     const buffer = await portfolioToCvBuffer(data);
     const filename = cvDownloadFilename(data);
     return new NextResponse(new Uint8Array(buffer), {

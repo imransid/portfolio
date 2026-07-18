@@ -108,7 +108,8 @@ function normalizeStats(raw: unknown, def: Stat[]): Stat[] {
     if (!isRecord(it)) continue;
     const n = str(it.n, '');
     const label = str(it.label, '');
-    if (n && label) out.push({ n, label });
+    const source = str(it.source, '');
+    if (n && label) out.push(source ? { n, label, source } : { n, label });
   }
   return out.length ? out : def;
 }
@@ -193,6 +194,7 @@ function normalizeProjects(raw: unknown, def: Project[]): Project[] {
       links: normalizeProjectLinks(it.links),
       accent: str(it.accent, ''),
       number,
+      status: str(it.status, ''),
     });
   }
   return out.length ? out : def;
@@ -308,6 +310,7 @@ export function normalizePortfolioData(input: unknown): PortfolioData {
     site: normalizeSiteContent(input.site, d.site),
     hero: {
       portfolioLine: str(hero.portfolioLine, d.hero.portfolioLine),
+      headline: str(hero.headline, d.hero.headline),
       marqueeSkills: strArr(hero.marqueeSkills, d.hero.marqueeSkills),
       ctaPrimaryLabel: str(hero.ctaPrimaryLabel, d.hero.ctaPrimaryLabel),
       ctaPrimaryHref: str(hero.ctaPrimaryHref, d.hero.ctaPrimaryHref),
@@ -367,6 +370,7 @@ export function normalizePortfolioData(input: unknown): PortfolioData {
       aside: str(projects.aside, d.projects.aside),
       featured: normalizeProjects(projects.featured, d.projects.featured),
       more: normalizeProjects(projects.more, d.projects.more),
+      archiveLine: str(projects.archiveLine, d.projects.archiveLine),
       moreSectionTitleBefore: str(
         projects.moreSectionTitleBefore,
         d.projects.moreSectionTitleBefore,

@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 9871",
-    "build": "next build",
+    "check:data": "yarn node scripts/check-data.mjs",
+    "build": "yarn node scripts/check-data.mjs && next build",
     "start": "next start -p 9871",
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.17.10",
     "docx": "9.5.0",
     "firebase": "^12.12.0",

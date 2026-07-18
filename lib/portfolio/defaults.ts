@@ -13,23 +13,23 @@ const marqueeSkills = [
   'Microservices',
 ];
 
-/** Hero fields only — useful for admin defaults and tests. */
+/** Hero fields only, useful for admin defaults and tests. */
 export const siteContentDefaults: SiteContent = {
   roleTagline: 'Lead Software Engineer',
   firstName: 'Imran',
   lastName: 'Khan',
   bio: '',
   location: '',
-  experienceMeta: '7+ years',
+  experienceMeta: '{{years}}+ years',
   experienceFocus: 'Mobile & Backend',
 };
 
 export const defaultPortfolioData: PortfolioData = {
   version: 1,
   seo: {
-    title: 'Imran Khan — Lead Engineer | Mobile & Backend Specialist',
+    title: 'Imran Khan | Lead Engineer, Mobile & Backend',
     description:
-      'Lead Software Engineer with 7+ years building high-performance React Native apps and scalable NestJS backends. Available for remote roles globally.',
+      'Lead Software Engineer, {{years}}+ years shipping React Native apps and the NestJS backends behind them. React Native, NestJS, PostgreSQL, GraphQL. Available for remote contract work.',
     keywords: [
       'Imran Khan',
       'Lead Engineer',
@@ -42,13 +42,14 @@ export const defaultPortfolioData: PortfolioData = {
   },
   site: {
     ...siteContentDefaults,
-    bio: 'I build production-grade mobile apps and the resilient backends behind them. React Native on the front; NestJS, PostgreSQL and GraphQL on the back. Currently leading engineering at Jumatechs.',
-    location: 'Dhaka, Bangladesh — available globally (remote)',
+    bio: 'I build mobile apps and the backends behind them. React Native on the front, NestJS with PostgreSQL and GraphQL on the back. Currently Lead Engineer at Jumatechs.',
+    location: 'Dhaka, Bangladesh. Available worldwide, remote.',
   },
   hero: {
     portfolioLine: 'Portfolio / 2026',
+    headline: 'I build apps and the backends behind them.',
     marqueeSkills,
-    ctaPrimaryLabel: 'Explore work',
+    ctaPrimaryLabel: 'Explore the map',
     ctaPrimaryHref: '#projects',
     ctaSecondaryLabel: 'Get in touch',
     ctaSecondaryHref: '#contact',
@@ -70,7 +71,7 @@ export const defaultPortfolioData: PortfolioData = {
   about: {
     sectionNum: '01',
     sectionLabel: 'About',
-    manifestoKicker: 'Manifesto',
+    manifestoKicker: '',
     manifestoBody:
       "An engineer's work is half code, half judgement. I care about the judgement.",
     headlineLine1Before: 'I ship things that ',
@@ -78,32 +79,41 @@ export const defaultPortfolioData: PortfolioData = {
     headlineLine2: 'Under load, on flaky networks,',
     headlineLine3Italic: 'at 2am for a release.',
     bodyParagraphs: [
-      "I've spent the last seven years leading mobile and backend work across fintech, real estate, HR platforms and consumer apps. Currently Lead Engineer at Jumatechs, where I drive architecture across React Native and NestJS stacks, run CI/CD with GitHub Actions and Expo EAS, and mentor a small team of engineers.",
-      'Before that I led hybrid mobile development at Intellier, shipped cross-platform products at Brain Station 23, and built public-facing products like the Bangladesh RAB CMS. I lean on AI tools (Copilot, Cursor) the way a chef uses a sharp knife — to move faster without cutting corners.',
+      "I've led mobile and backend work across real estate, HR, government and consumer apps. Currently Lead Engineer at Jumatechs, where I drive architecture across React Native and NestJS stacks, run CI/CD with GitHub Actions and Expo EAS, and mentor a small team of engineers.",
+      'Before that I led hybrid mobile development at Intellier and shipped cross-platform products at Brain Station 23. I lean on AI tools like Copilot and Cursor to move faster without cutting corners.',
     ],
     stats: [
-      { n: '7+', label: 'Years building' },
-      { n: '20+', label: 'Apps shipped' },
-      { n: '3', label: 'Senior roles' },
-      { n: '∞', label: 'Cups of tea' },
+      { n: '{{years}}+', label: 'Years building' },
+      {
+        n: '{{goSmartYears}}',
+        label:
+          'Years since I last shipped to the Go Smart backend, still in production',
+      },
+      {
+        n: '70,000',
+        label: 'Bazzile downloads in France, in twelve months',
+        source:
+          'https://www.journaldelagence.com/1403035-lapplication-de-recherche-immobiliere-bazzile-veut-conquerir-la-france',
+      },
+      { n: '{{appsOnStores}}', label: 'Apps I worked on that are live on public stores' },
     ],
   },
   experience: {
     sectionNum: '02',
     sectionLabel: 'Selected Work History',
-    titleLead: 'A decade of ',
+    titleLead: '{{years}} years of ',
     titleEmphasis: 'shipping things',
     titleTail: ' across mobile, backend and the messy bits in between.',
     roles: [
       {
         company: 'Jumatechs',
         title: 'Lead Engineer',
-        period: '2025 — Present',
+        period: 'Aug 2025 - Present',
         years: '2025',
         bullets: [
           'Lead a cross-functional team driving architecture and code quality across mobile and backend systems.',
           'Architect React Native apps backed by NestJS, PostgreSQL and Supabase.',
-          'Built CI/CD pipelines with GitHub Actions and Expo EAS — cut deployment time significantly.',
+          'Built CI/CD pipelines with GitHub Actions and Expo EAS for the mobile release process.',
           'Shipped secure auth, real-time sync and Stripe payments to production.',
           'Integrated AI-assisted tooling (Copilot, Cursor) into team workflow; mentor juniors on API design, state management and testing.',
         ],
@@ -119,8 +129,8 @@ export const defaultPortfolioData: PortfolioData = {
       {
         company: 'Intellier',
         title: 'Senior Software Engineer',
-        period: 'Jan 2023 — Jul 2025',
-        years: '2023–25',
+        period: 'Jan 2023 - Jul 2025',
+        years: '2023-25',
         bullets: [
           'Led hybrid mobile development using React Native, NestJS and Django.',
           'Architected JWT auth with row-level security policies for data integrity.',
@@ -140,12 +150,12 @@ export const defaultPortfolioData: PortfolioData = {
       {
         company: 'Brain Station 23',
         title: 'Software Engineer',
-        period: 'Jan 2020 — Dec 2023',
-        years: '2020–23',
+        period: 'Jan 2020 - Dec 2022',
+        years: '2020-22',
         bullets: [
+          "Engineered secure backend services (NestJS, Django) for Modhumoti Bank's Go Smart digital banking platform, a production system still serving live customers today.",
           'Designed and shipped cross-platform applications using React Native and MSSQL.',
-          'Built scalable backend services with payment and real-time features.',
-          'Collaborated in agile teams to meet deadlines while keeping a high quality bar.',
+          'Built backend services with payment and real-time features.',
         ],
         tech: ['React Native', 'MSSQL', 'Redux', 'Agile'],
       },
@@ -155,33 +165,56 @@ export const defaultPortfolioData: PortfolioData = {
     sectionNum: '03',
     sectionLabel: 'Selected Projects',
     titleLead: "Things I've ",
-    titleEmphasis: 'built',
+    titleEmphasis: 'shipped',
     titleMid:
       ' recently. Some live in app stores, some in government, ',
-    titleTailItalic: 'some in the RMG factory floor.',
+    titleTailItalic: 'some on the RMG factory floor.',
     aside:
-      'A selection of work across mobile, backend and the integrations that hold them together. Links go to production where available.',
+      'A selection of work across mobile, backend and the integrations that hold them together. Links go to a live app, a store listing, a demo or a case study.',
     moreSectionTitleBefore: 'More',
     moreSectionTitleEmphasis: ' work.',
     featured: [
       {
-        name: 'Balanzify',
-        tagline: 'HR & Payroll Microservice',
+        name: 'Go Smart',
+        tagline: "Modhumoti Bank's digital banking app",
         description:
-          'A full HR and payroll platform built as a set of NestJS microservices — onboarding, payslips, attendance, tax logic and leave management, all speaking GraphQL. Designed for enterprise scale.',
-        period: 'Jul 2025 — Ongoing',
-        category: 'Enterprise SaaS',
-        tech: ['NestJS', 'PostgreSQL', 'GraphQL', 'Microservices'],
-        links: [{ label: 'Live site', url: 'https://balanzify.com' }],
+          "Engineered secure backend services for Go Smart, Modhumoti Bank's digital banking platform, at Brain Station 23. A production system still serving live customers today.",
+        period: '2020 - 2022',
+        category: 'Digital Banking',
+        tech: ['NestJS', 'Django', 'Node.js', 'REST APIs', 'PostgreSQL'],
+        links: [
+          {
+            label: 'The Daily Star',
+            url: 'https://www.thedailystar.net/business/news/brain-station-23-the-homegrown-fintech-firm-enabling-local-banks-go-digital-1952185',
+          },
+          {
+            label: 'Google Play',
+            url: 'https://play.google.com/store/apps/details?id=modhumotibankltd.com',
+          },
+        ],
         accent: 'from-amber-glow/30 to-transparent',
         number: '01',
+        status: 'In production',
       },
       {
-        name: 'BAZZILE',
+        name: 'Balanzify',
+        tagline: 'HR & Payroll Microservices',
+        description:
+          'An HR and payroll platform built as NestJS microservices: onboarding, payslips, attendance, tax logic and leave management, all speaking GraphQL.',
+        period: 'Jul 2025 - Ongoing',
+        category: 'HR & Payroll SaaS',
+        tech: ['NestJS', 'PostgreSQL', 'GraphQL', 'Microservices'],
+        links: [{ label: 'balanzify.com', url: 'https://balanzify.com' }],
+        accent: 'from-amber-glow/30 to-transparent',
+        number: '02',
+        status: 'In production',
+      },
+      {
+        name: 'Bazzile',
         tagline: 'Real Estate Marketplace',
         description:
-          'List, browse, buy and sell properties with Tinder-style swipe animations, location-based matching via Google Maps and real-time sync through Firebase. iOS on the App Store.',
-        period: 'Jan 2025 — Jul 2025',
+          'The app has passed 70,000 downloads in France in twelve months, with around 15,000 active users there. I shipped features into the Bazzile React Native app: swipe-based browsing, Google Maps location matching and Firebase real-time sync. Bazzile is a Swiss real estate marketplace based in Geneva, where listings come only from professional agencies, are ranked by an AI matching model, and sync with most agency CRMs. Live on the App Store and Google Play.',
+        period: 'Jan 2025 - Jul 2025',
         category: 'Consumer Mobile',
         tech: [
           'React Native',
@@ -193,48 +226,61 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: 'App Store',
-            url: 'https://apps.apple.com/us/app/bazzile/id1622224603',
+            url: 'https://apps.apple.com/fr/app/bazzile/id1622224603',
+          },
+          {
+            label: 'Google Play',
+            url: 'https://play.google.com/store/apps/details?id=com.bazzile.app',
+          },
+          {
+            label: 'Journal de l\'Agence',
+            url: 'https://www.journaldelagence.com/1403035-lapplication-de-recherche-immobiliere-bazzile-veut-conquerir-la-france',
           },
         ],
-        accent: 'from-signal-green/20 to-transparent',
-        number: '02',
+        accent: 'from-amber-glow/25 to-transparent',
+        number: '03',
+        status: 'Live',
       },
       {
         name: 'Bangladesh RAB',
         tagline: 'Government CMS',
         description:
-          'Led backend architecture for the Bangladesh Rapid Action Battalion content management system. Scalable microservices in TypeScript and NestJS, robust APIs, Next.js frontend — deployed at rab.gov.bd.',
-        period: 'Jan 2024 — Dec 2024',
+          'Led the backend architecture for the Bangladesh Rapid Action Battalion content management system: microservices in TypeScript and NestJS, the APIs behind them, and a Next.js frontend. Deployed at rab.gov.bd.',
+        period: 'Jan 2024 - Dec 2024',
         category: 'Government',
         tech: ['NestJS', 'TypeScript', 'PostgreSQL', 'Docker', 'Next.js'],
-        links: [{ label: 'Visit rab.gov.bd', url: 'https://rab.gov.bd' }],
+        links: [{ label: 'www.rab.gov.bd', url: 'https://www.rab.gov.bd' }],
         accent: 'from-amber-glow/20 to-transparent',
-        number: '03',
+        number: '04',
+        status: 'Live',
       },
       {
-        name: 'MyRef',
+        name: 'Myrep',
         tagline: 'Field Rep Companion',
         description:
-          'Customer support, task tracking and real-time rep communication. In-app chat, push notifications and WatermelonDB-powered offline sync for reliability on flaky networks.',
-        period: 'Jan 2025 — Sep 2025',
+          'Shipped features for Myrep, a Jumatechs field-rep app: customer support, task tracking and real-time rep communication, with in-app chat, push notifications and WatermelonDB offline sync so it keeps working on flaky networks.',
+        period: 'Jan 2025 - Sep 2025',
         category: 'B2B Mobile',
         tech: ['React Native', 'WatermelonDB', 'NestJS', 'GraphQL', 'Sentry'],
         links: [
           {
-            label: 'Play Store',
+            label: 'Google Play',
             url: 'https://play.google.com/store/apps/details?id=com.myref.app',
           },
         ],
         accent: 'from-bone/10 to-transparent',
-        number: '04',
+        number: '05',
+        status: 'Live',
       },
       {
+        // TODO(imran): the deployed demo's page title is "Playerzone", this card says "Playzone".
+        // Owner is fixing the deployed app. Do NOT ship until the name matches the live title.
         name: 'Playzone',
-        tagline: 'Real-time multiplayer. Classic games. Zero friction.',
+        tagline: 'Real-time multiplayer, classic games, no signups',
         description:
-          'A real-time multiplayer gaming platform where users play classic childhood games with friends — no signups, no lag, just instant play. Built on a microservices architecture with NestJS handling game logic and matchmaking, PostgreSQL for persistence, and Socket.IO powering sub-second real-time state sync between players. The Next.js frontend delivers a mobile-first, ad-free experience, and the entire system is containerized with Docker for consistent deployment across environments.',
-        period: '2024 — Present',
-        category: 'Full-Stack · Real-Time Web App',
+          'A real-time multiplayer platform for classic games with friends, no signups required. NestJS microservices handle game logic and matchmaking, PostgreSQL stores state, and Socket.IO syncs players in under a second. Next.js frontend, containerized with Docker.',
+        period: '2024 - Present',
+        category: 'Full-Stack, Real-Time Web App',
         tech: [
           'Next.js',
           'TypeScript',
@@ -245,9 +291,10 @@ export const defaultPortfolioData: PortfolioData = {
           'Microservices',
           'Tailwind CSS',
         ],
-        links: [{ label: 'Live demo', url: 'https://playzone-update.vercel.app/' }],
+        links: [{ label: 'Demo', url: 'https://playzone-update.vercel.app/' }],
         accent: 'from-amber-glow/30 to-transparent',
-        number: '05',
+        number: '06',
+        status: 'Live',
       },
     ],
     more: [
@@ -255,99 +302,50 @@ export const defaultPortfolioData: PortfolioData = {
         name: 'GodConnect Online',
         tagline: 'Community app with live broadcasts',
         description:
-          'Groups, live broadcasts, messaging, media uploads and a GPS-based church finder. Shipped to both stores.',
-        period: '2023 — 2024',
+          'Shipped features for GodConnect Online, a community app with groups, live broadcasts, messaging, media uploads and a GPS-based church finder. Live on both stores.',
+        period: '2023 - 2024',
         category: 'Social',
         tech: ['React Native', 'Redux-Saga', 'WatermelonDB', 'Firebase'],
         links: [
           {
-            label: 'iOS',
+            label: 'App Store',
             url: 'https://apps.apple.com/us/app/godconnect-online/id1518393186',
           },
           {
-            label: 'Android',
+            label: 'Google Play',
             url: 'https://play.google.com/store/apps/details?id=com.godconnect.online',
           },
         ],
         accent: '',
-        number: '06',
-      },
-      {
-        name: 'IQApp Test',
-        tagline: 'Personalized dashboards',
-        description:
-          'Dashboards, real-time notifications, GraphQL-optimized fetching and Stripe in-app payments over a Django API.',
-        period: 'Sep — Dec 2025',
-        category: 'Consumer',
-        tech: ['React Native', 'GraphQL', 'Stripe', 'Django'],
-        links: [],
-        accent: '',
         number: '07',
+        status: 'Live',
       },
       {
         name: 'NIdle Finishing',
         tagline: 'RMG sector digitalization',
         description:
-          'Digitalized the finishing process for the ready-made garments sector — React Native with GraphQL and NestJS.',
-        period: 'Nov 2023 — Feb 2024',
+          'Digitized the finishing stage for a ready-made-garments factory floor. React Native app over GraphQL and NestJS.',
+        period: 'Nov 2023 - Feb 2024',
         category: 'Industrial',
         tech: ['React Native', 'GraphQL', 'NestJS'],
         links: [{ label: 'Case study', url: 'https://intellier.com/nidle/' }],
         accent: '',
         number: '08',
-      },
-      {
-        name: 'Team Pharma',
-        tagline: 'Cross-platform pharma app',
-        description:
-          'NestJS microservices, PostgreSQL and Firebase push notifications serving pharmaceutical field teams.',
-        period: 'Jul — Oct 2024',
-        category: 'Healthtech',
-        tech: ['React Native', 'NestJS', 'PostgreSQL', 'Firebase'],
-        links: [{ label: 'Live site', url: 'https://teampharmabd.com/' }],
-        accent: '',
-        number: '09',
-      },
-      {
-        name: 'JTI Sheikh App',
-        tagline: 'AR filters on mobile',
-        description:
-          'Integrated Deep AR for real-time augmented reality filters on a React Native app. Redux-Saga for state.',
-        period: 'Sep — Dec 2021',
-        category: 'AR / Consumer',
-        tech: ['React Native', 'Deep AR', 'Redux-Saga'],
-        links: [],
-        accent: '',
-        number: '10',
-      },
-      {
-        name: 'Converter & Wallet',
-        tagline: 'Currency converter with history',
-        description:
-          'Lightweight currency-conversion and wallet app with a local database for conversion history.',
-        period: '2020 — 2021',
-        category: 'Utility',
-        tech: ['React Native', 'Redux'],
-        links: [
-          {
-            label: 'Play Store',
-            url: 'https://play.google.com/store/apps/details?id=com.converter.wallet',
-          },
-        ],
-        accent: '',
-        number: '11',
+        status: '',
       },
     ],
+    archiveLine:
+      'Also shipped: IQApp Test (Django, GraphQL, Stripe, 2025), Team Pharma (NestJS microservices, 2024), JTI Sheikh (Deep AR, 2021).',
   },
   skills: {
     sectionNum: '04',
     sectionLabel: 'Toolbox',
     titleLead: 'The ',
     titleEmphasis: 'tools',
-    titleTail: ' I reach for — grouped by where they live in the stack.',
-    legendPrimary: 'Primary — daily',
-    legendStrong: 'Strong — production',
-    legendWorking: 'Working — shipped with',
+    titleTail: ' I reach for, grouped by where they live in the stack.',
+    legendPrimary: 'Primary, daily',
+    legendStrong: 'Strong, in production',
+    legendWorking: 'Working, shipped with',
     groups: [
       {
         label: 'A',
@@ -418,8 +416,8 @@ export const defaultPortfolioData: PortfolioData = {
     headlineLine3: 'to build?',
     headlineLine4Italic: "Let's talk.",
     blurb:
-      "I'm open to lead and senior remote roles, contract work and long-term collaborations. Fastest reply is email — I check it first thing, Dhaka time.",
-    primaryEmailLabel: 'Primary · Email',
+      "I'm open to lead and senior remote roles, contract work and long-term collaborations. Email is the fastest way to reach me; I check it first thing, Dhaka time.",
+    primaryEmailLabel: 'Primary, Email',
     primaryEmail: 'emailofimran1992@gmail.com',
     portfolioUrl: 'https://imran-khan-chi.vercel.app/',
     channels: [
@@ -460,7 +458,7 @@ export const defaultPortfolioData: PortfolioData = {
     lastName: 'Khan',
     copyrightName: 'Imran Khan',
     statusLabel: 'Open to work',
-    builtLine: 'Built with Next · Three · Tailwind',
+    builtLine: 'Built with Next and Tailwind',
     githubHref: 'https://github.com/imransid',
     linkedinHref: 'https://www.linkedin.com/in/imran-khan-9bb7b5147/',
     emailHref: 'mailto:emailofimran1992@gmail.com',

@@ -25,13 +25,22 @@ const config: Config = {
           deep: '#c47a10',
         },
         signal: {
+          DEFAULT: '#3D2BD6',
+          deep: '#2A1CA8',
           green: '#84cc16',
         },
+        // Light instrument sheet (Phase 3 redesign)
+        sheet: '#ECEFF3',
+        panel: '#F5F7FA',
+        carbon: '#0E1116',
+        graphite: '#606B7A',
+        line: '#D3D9E2',
       },
       fontFamily: {
         display: ['var(--font-fraunces)', 'Georgia', 'serif'],
         sans: ['var(--font-geist)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-jetbrains)', 'ui-monospace', 'monospace'],
+        martian: ['var(--font-martian)', 'ui-monospace', 'monospace'],
       },
       fontSize: {
         'display-xl': ['clamp(3.5rem, 12vw, 10rem)', { lineHeight: '0.9', letterSpacing: '-0.04em' }],

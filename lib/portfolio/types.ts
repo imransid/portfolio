@@ -14,7 +14,7 @@ export type NavItem = {
   num: string;
 };
 
-export type Stat = { n: string; label: string };
+export type Stat = { n: string; label: string; source?: string };
 
 export type ExperienceRole = {
   company: string;
@@ -37,6 +37,8 @@ export type Project = {
   links: ProjectLink[];
   accent: string;
   number: string;
+  /** Status pill. 'Live' | 'In production' | 'Demo' | 'Case study'. Empty = no pill. */
+  status?: string;
 };
 
 export type SkillLevel = 'Primary' | 'Strong' | 'Working';
@@ -75,6 +77,7 @@ export type PortfolioData = {
   site: SiteContent;
   hero: {
     portfolioLine: string;
+    headline: string;
     marqueeSkills: string[];
     ctaPrimaryLabel: string;
     ctaPrimaryHref: string;
@@ -119,6 +122,8 @@ export type PortfolioData = {
     aside: string;
     featured: Project[];
     more: Project[];
+    /** One-line "also shipped" archive: employment history, no pills, links or numbers. */
+    archiveLine: string;
     moreSectionTitleBefore: string;
     moreSectionTitleEmphasis: string;
   };

@@ -43,7 +43,7 @@ const SKILL_FILL = 'D6E4F0';
 /** Content width (twips) aligned with prior tab-based layout. */
 const CONTENT_WIDTH_TWIP = 9360;
 
-/** Two spaces each side of `|` — same as reference contact & role lines. */
+/** Two spaces each side of `|`, same as reference contact & role lines. */
 const SEP = '  |  ';
 
 /** Same bullet list as reference (`abstractNumId` 2: indent 480 / hanging 240). */
@@ -322,7 +322,7 @@ function bulletParagraph(text: string): Paragraph {
 
 function projectBlocks(project: Project): Paragraph[] {
   const out: Paragraph[] = [];
-  const title = project.tagline ? `${project.name} — ${project.tagline}` : project.name;
+  const title = project.tagline ? `${project.name}: ${project.tagline}` : project.name;
   out.push(projectTitleParagraph(title, project.period));
 
   const desc = esc(project.description).trim();
@@ -387,13 +387,13 @@ function educationBlocks(): Paragraph[] {
           font: 'Arial',
         }),
         new TextRun({
-          text: '  —  Green University of Bangladesh',
+          text: '  |  Green University of Bangladesh',
           color: GRAY,
           size: SZ.roleCompany,
           font: 'Arial',
         }),
         new TextRun({
-          text: '  (Jan 2015 – Jul 2019)',
+          text: '  (Jan 2015 - Jul 2019)',
           italics: true,
           color: GRAY,
           size: SZ.roleDate,
@@ -568,7 +568,7 @@ export async function portfolioToCvBuffer(data: PortfolioData): Promise<Buffer> 
     children.push(buildSkillTable(skillNames));
     children.push(new Paragraph({ spacing: { before: 80 } }));
   } else {
-    children.push(bodyPara('—', { before: 80, after: 40 }));
+    children.push(bodyPara('-', { before: 80, after: 40 }));
   }
 
   const langLine = languagesLine(data);
@@ -595,6 +595,10 @@ export async function portfolioToCvBuffer(data: PortfolioData): Promise<Buffer> 
   }
   for (const p of data.projects.more) {
     children.push(...projectBlocks(p));
+  }
+  const archiveLine = (data.projects.archiveLine ?? '').trim();
+  if (archiveLine) {
+    children.push(bodyPara(archiveLine, { before: 140, after: 40 }));
   }
 
   const doc = new Document({
