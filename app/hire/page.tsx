@@ -36,7 +36,10 @@ export default async function Hire() {
     <main className="relative min-h-screen bg-sheet">
       <HireNav data={portfolio.navigation} upworkUrl={UPWORK_URL} />
       <Hero site={portfolio.site} hero={portfolio.hero} projects={portfolio.projects} />
-      <About data={portfolio.about} />
+      {/* /hire is the Upwork-ToS-safe page: zero off-platform contact. The Bolt
+          Fusion affiliation links to an agency site with a Calendly/mailto/socials,
+          a one-hop path off-platform, so it is stripped here and kept on / only. */}
+      <About data={{ ...portfolio.about, affiliation: undefined }} />
       <Experience data={portfolio.experience} />
       <Projects data={portfolio.projects} />
       <Skills data={portfolio.skills} />
