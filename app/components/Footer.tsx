@@ -1,47 +1,46 @@
-'use client';
-
-import { ArrowUp } from 'lucide-react';
 import type { PortfolioData } from '@/lib/portfolio/types';
 
 type FooterProps = { data: PortfolioData['footer'] };
 
+/**
+ * Light instrument sheet (Phase 3). Server component: no framer, no lucide, no
+ * client JS. The old animated green availability dot is gone; status is plain
+ * ink text with a small carbon dot. Links are ink and underlined.
+ */
 export default function Footer({ data }: FooterProps) {
-  return (
-    <footer className="relative border-t border-ink-border bg-ink-deep overflow-hidden">
-      <div className="px-6 md:px-10 pt-20 md:pt-28 pb-10">
-        <div className="mx-auto max-w-[1600px]">
-          <h2 className="font-display text-[clamp(4rem,22vw,20rem)] leading-[0.85] tracking-[-0.04em] text-balance">
-            <span className="block">{data.firstName}</span>
-            <span className="block italic font-light text-bone-soft">
-              {data.lastName}
-              <span className="text-amber-glow">.</span>
-            </span>
-          </h2>
-        </div>
-      </div>
+  const year = new Date().getFullYear();
 
-      <div className="border-t border-ink-border px-6 md:px-10 py-8">
-        <div className="mx-auto max-w-[1600px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.25em] text-bone-muted">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
+  return (
+    <footer className="relative border-t border-line bg-sheet text-carbon">
+      <div className="mx-auto max-w-5xl px-5 py-20 md:px-10 md:py-28">
+        <h2 className="text-balance font-martian text-4xl font-bold leading-[1.05] text-carbon md:text-6xl">
+          {data.firstName} {data.lastName}.
+        </h2>
+
+        <div className="mt-16 flex flex-col items-start justify-between gap-8 border-t border-line pt-8 font-mono text-[10px] uppercase tracking-[0.24em] text-graphite md:mt-20 md:flex-row md:items-center">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
             <span>
-              © {new Date().getFullYear()} {data.copyrightName}
+              &copy; {year} {data.copyrightName}
             </span>
-            <span className="flex items-center gap-2">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal-green opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-signal-green" />
-              </span>
+            <span className="flex items-center gap-2 text-carbon">
+              <span
+                className="h-1.5 w-1.5 rounded-full bg-carbon"
+                aria-hidden="true"
+              />
               {data.statusLabel}
             </span>
             <span>{data.builtLine}</span>
           </div>
 
-          <div className="flex items-center gap-6">
+          <nav
+            aria-label="Footer"
+            className="flex flex-wrap items-center gap-x-6 gap-y-3"
+          >
             <a
               href={data.githubHref}
               target="_blank"
               rel="noreferrer"
-              className="hover-line"
+              className="text-carbon underline decoration-line underline-offset-4 transition-colors hover:decoration-carbon focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-carbon"
             >
               GitHub
             </a>
@@ -49,24 +48,24 @@ export default function Footer({ data }: FooterProps) {
               href={data.linkedinHref}
               target="_blank"
               rel="noreferrer"
-              className="hover-line"
+              className="text-carbon underline decoration-line underline-offset-4 transition-colors hover:decoration-carbon focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-carbon"
             >
               LinkedIn
             </a>
-            <a href={data.emailHref} className="hover-line">
+            <a
+              href={data.emailHref}
+              className="text-carbon underline decoration-line underline-offset-4 transition-colors hover:decoration-carbon focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-carbon"
+            >
               Email
             </a>
             <a
               href="#top"
-              className="inline-flex items-center gap-2 group"
               aria-label="Back to top"
+              className="text-carbon underline decoration-line underline-offset-4 transition-colors hover:decoration-carbon focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-carbon"
             >
-              Top
-              <span className="w-6 h-6 rounded-full border border-bone/20 flex items-center justify-center group-hover:border-amber-glow group-hover:text-amber-glow transition-colors">
-                <ArrowUp className="w-3 h-3" />
-              </span>
+              Top &uarr;
             </a>
-          </div>
+          </nav>
         </div>
       </div>
     </footer>

@@ -37,7 +37,6 @@ const RAW_RUNTIME_STATE =
           ["docx", "npm:9.5.0"],\
           ["firebase", "npm:12.12.0"],\
           ["firebase-admin", "npm:13.8.0"],\
-          ["framer-motion", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:11.18.2"],\
           ["imran-khan-portfolio", "workspace:."],\
           ["lucide-react", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:0.454.0"],\
           ["next", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:14.2.15"],\
@@ -2772,39 +2771,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["framer-motion", [\
-      ["npm:11.18.2", {\
-        "packageLocation": "../../.yarn/berry/cache/framer-motion-npm-11.18.2-badab02ede-10c0.zip/node_modules/framer-motion/",\
-        "packageDependencies": [\
-          ["framer-motion", "npm:11.18.2"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:11.18.2", {\
-        "packageLocation": "./.yarn/__virtual__/framer-motion-virtual-dd37feb9bf/3/.yarn/berry/cache/framer-motion-npm-11.18.2-badab02ede-10c0.zip/node_modules/framer-motion/",\
-        "packageDependencies": [\
-          ["@emotion/is-prop-valid", null],\
-          ["@types/emotion__is-prop-valid", null],\
-          ["@types/react", "npm:18.3.28"],\
-          ["@types/react-dom", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:18.3.7"],\
-          ["framer-motion", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:11.18.2"],\
-          ["motion-dom", "npm:11.18.1"],\
-          ["motion-utils", "npm:11.18.1"],\
-          ["react", "npm:18.3.1"],\
-          ["react-dom", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:18.3.1"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "packagePeers": [\
-          "@emotion/is-prop-valid",\
-          "@types/emotion__is-prop-valid",\
-          "@types/react-dom",\
-          "@types/react",\
-          "react-dom",\
-          "react"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["fs-minipass", [\
       ["npm:3.0.3", {\
         "packageLocation": "../../.yarn/berry/cache/fs-minipass-npm-3.0.3-d148d6ac19-10c0.zip/node_modules/fs-minipass/",\
@@ -3222,7 +3188,6 @@ const RAW_RUNTIME_STATE =
           ["docx", "npm:9.5.0"],\
           ["firebase", "npm:12.12.0"],\
           ["firebase-admin", "npm:13.8.0"],\
-          ["framer-motion", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:11.18.2"],\
           ["imran-khan-portfolio", "workspace:."],\
           ["lucide-react", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:0.454.0"],\
           ["next", "virtual:f503e4b93fc2dbad00a3478b1dfa5bc8eb94a585ac22b691ef8730c5f2a90ae9a5c7b65e81c01a84a720ab9651d3d337a11e7491d4ef68984d49d726fa3b898b#npm:14.2.15"],\
@@ -3836,25 +3801,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["minipass", "npm:7.1.3"],\
           ["minizlib", "npm:3.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["motion-dom", [\
-      ["npm:11.18.1", {\
-        "packageLocation": "../../.yarn/berry/cache/motion-dom-npm-11.18.1-328a240ed0-10c0.zip/node_modules/motion-dom/",\
-        "packageDependencies": [\
-          ["motion-dom", "npm:11.18.1"],\
-          ["motion-utils", "npm:11.18.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["motion-utils", [\
-      ["npm:11.18.1", {\
-        "packageLocation": "../../.yarn/berry/cache/motion-utils-npm-11.18.1-2341a6fcf2-10c0.zip/node_modules/motion-utils/",\
-        "packageDependencies": [\
-          ["motion-utils", "npm:11.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\

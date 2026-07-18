@@ -1,176 +1,172 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { FileDown, Menu, X } from 'lucide-react';
 import { CV_DOWNLOAD_PATH } from '@/lib/cv/download-path';
 import type { PortfolioData } from '@/lib/portfolio/types';
 
 type NavProps = { data: PortfolioData['navigation'] };
 
+const focusRing =
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-carbon';
+
+/**
+ * Light instrument-sheet navigation (Phase 3). Kept as a client component only
+ * for the mobile menu and the scroll-to-backdrop state (the one place the design
+ * system permits it). framer-motion is dropped in favour of CSS transitions, the
+ * live clock and green availability ping are gone, and numbered eyebrows are
+ * dropped. Text is ink on the light sheet so it stays legible over the hero.
+ */
 export default function Navigation({ data }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [time, setTime] = useState('');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    const tick = () => {
-      const now = new Date();
-      const fmt = new Intl.DateTimeFormat('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZone: data.timeZone || 'Asia/Dhaka',
-        hour12: false,
-      });
-      setTime(fmt.format(now));
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
     };
-    tick();
-    const id = setInterval(tick, 1000 * 30);
-    return () => clearInterval(id);
-  }, [data.timeZone]);
+    document.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open]);
 
   return (
     <>
-      <motion.header
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      <header
+        className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 motion-reduce:transition-none ${
           scrolled
-            ? 'bg-ink-deep/70 backdrop-blur-xl border-b border-ink-border'
-            : 'bg-transparent'
+            ? 'border-line bg-sheet/80 backdrop-blur-md'
+            : 'border-transparent bg-transparent'
         }`}
       >
-        <div className="mx-auto max-w-[1600px] px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-20 md:px-10">
           <a
             href="#top"
-            className="group flex items-center gap-3 font-display text-xl tracking-tight"
+            className={`group flex items-center gap-3 rounded-sm ${focusRing}`}
           >
-            <span className="relative w-9 h-9 rounded-full border border-bone/30 flex items-center justify-center overflow-hidden">
-              <span className="absolute inset-0 bg-amber-glow translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-              <span className="relative z-10 font-mono text-[11px] tracking-wider transition-colors duration-500 group-hover:text-ink-deep">
-                {data.brandMonogram}
-              </span>
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-panel font-mono text-[11px] tracking-wider text-carbon transition-colors duration-300 group-hover:border-carbon motion-reduce:transition-none">
+              {data.brandMonogram}
             </span>
-            <span className="hidden sm:inline italic">{data.brandName}</span>
+            <span className="hidden font-mono text-[13px] tracking-tight text-carbon sm:inline">
+              {data.brandName}
+            </span>
           </a>
 
-          <nav className="hidden md:flex items-center gap-1">
-            {data.navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="group relative px-4 py-2 text-sm tracking-wide"
-              >
-                <span className="font-mono text-[10px] text-bone-muted mr-1.5 align-top">
-                  {item.num}
-                </span>
-                <span className="hover-line">{item.label}</span>
-              </a>
-            ))}
+          <div className="hidden items-center gap-6 md:flex">
+            <nav aria-label="Primary" className="flex items-center gap-5">
+              {data.navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={`rounded-sm font-mono text-[11px] uppercase tracking-[0.14em] text-graphite underline-offset-4 transition-colors duration-200 hover:text-carbon hover:underline motion-reduce:transition-none ${focusRing}`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
             <a
               href={CV_DOWNLOAD_PATH}
               download
-              className="group inline-flex items-center gap-2 rounded-full border border-bone/15 px-4 py-2 text-sm tracking-wide text-bone-muted transition hover:border-amber-glow/40 hover:text-bone"
+              className={`inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] uppercase tracking-[0.14em] text-graphite underline-offset-4 transition-colors duration-200 hover:text-carbon hover:underline motion-reduce:transition-none ${focusRing}`}
             >
-              <FileDown className="h-4 w-4 opacity-80 group-hover:opacity-100" aria-hidden />
+              <FileDown className="h-3.5 w-3.5" aria-hidden="true" />
               CV
             </a>
-          </nav>
 
-          <div className="hidden md:flex items-center gap-4 font-mono text-[11px] text-bone-muted uppercase tracking-widest">
-            <span className="flex items-center gap-1.5">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal-green opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-signal-green" />
+            <span className="h-4 w-px bg-line" aria-hidden="true" />
+
+            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-graphite">
+              <span className="flex items-center gap-1.5">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-carbon opacity-70"
+                  aria-hidden="true"
+                />
+                {data.availabilityLabel}
               </span>
-              {data.availabilityLabel}
-            </span>
-            <span>
-              {data.timezoneCity} {time}
-            </span>
+              <span>{data.timezoneCity}</span>
+            </div>
           </div>
 
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="md:hidden p-2"
             aria-label="Open menu"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            className={`rounded-sm p-2 text-carbon md:hidden ${focusRing}`}
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
-      </motion.header>
+      </header>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-ink-deep md:hidden"
+      <div
+        id="mobile-menu"
+        aria-hidden={!open}
+        className={`fixed inset-0 z-[60] flex flex-col bg-sheet text-carbon transition-[opacity,visibility] duration-300 motion-reduce:transition-none md:hidden ${
+          open ? 'visible opacity-100' : 'invisible opacity-0'
+        }`}
+      >
+        <div className="flex h-16 items-center justify-between border-b border-line px-5">
+          <span className="font-mono text-[13px] tracking-tight text-carbon">
+            {data.brandName}
+          </span>
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label="Close menu"
+            className={`rounded-sm p-2 text-carbon ${focusRing}`}
           >
-            <div className="flex items-center justify-between px-6 h-16 border-b border-ink-border">
-              <span className="font-display italic text-xl">{data.brandName}</span>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="p-2"
-                aria-label="Close menu"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <nav className="px-6 py-10 flex flex-col">
-              {data.navItems.map((item, i) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06 }}
-                  className="group flex items-baseline gap-4 py-5 border-b border-ink-border"
-                >
-                  <span className="font-mono text-[11px] text-bone-muted">
-                    {item.num}
-                  </span>
-                  <span className="font-display text-4xl group-hover:text-amber-glow transition-colors">
-                    {item.label}
-                  </span>
-                </motion.a>
-              ))}
-              <motion.a
-                href={CV_DOWNLOAD_PATH}
-                download
-                onClick={() => setOpen(false)}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 + data.navItems.length * 0.06 }}
-                className="group flex items-center gap-3 py-5 border-b border-ink-border text-bone-muted hover:text-amber-glow"
-              >
-                <FileDown className="h-5 w-5 shrink-0" aria-hidden />
-                <span className="font-display text-2xl">Download CV (.docx)</span>
-              </motion.a>
-            </nav>
-            <div className="absolute bottom-10 left-6 right-6 font-mono text-[11px] text-bone-muted uppercase tracking-widest flex items-center gap-4">
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-signal-green" />
-                {data.availabilityLabel}
-              </span>
-              <span>
-                {data.timezoneCity} {time}
-              </span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+
+        <nav aria-label="Mobile" className="flex flex-col px-5 py-6">
+          {data.navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className={`border-b border-line py-5 font-martian text-2xl font-bold text-carbon transition-colors duration-200 hover:text-graphite motion-reduce:transition-none ${focusRing}`}
+            >
+              {item.label}
+            </a>
+          ))}
+          <a
+            href={CV_DOWNLOAD_PATH}
+            download
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-3 border-b border-line py-5 font-mono text-sm uppercase tracking-[0.14em] text-graphite transition-colors duration-200 hover:text-carbon motion-reduce:transition-none ${focusRing}`}
+          >
+            <FileDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+            Download CV
+          </a>
+        </nav>
+
+        <div className="mt-auto flex items-center gap-3 px-5 pb-10 font-mono text-[10px] uppercase tracking-[0.2em] text-graphite">
+          <span className="flex items-center gap-1.5">
+            <span
+              className="h-1.5 w-1.5 rounded-full bg-carbon opacity-70"
+              aria-hidden="true"
+            />
+            {data.availabilityLabel}
+          </span>
+          <span>{data.timezoneCity}</span>
+        </div>
+      </div>
     </>
   );
 }

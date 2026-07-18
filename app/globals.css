@@ -27,7 +27,7 @@
   }
 
   ::selection {
-    @apply bg-amber-glow text-ink-deep;
+    background: rgba(61, 43, 214, 0.16);
   }
 
   /* Custom scrollbar */
