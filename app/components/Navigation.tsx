@@ -47,7 +47,7 @@ export default function Navigation({ data }: NavProps) {
       <header
         className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 motion-reduce:transition-none ${
           scrolled
-            ? 'border-line bg-sheet/80 backdrop-blur-md'
+            ? 'border-line bg-sheet'
             : 'border-transparent bg-transparent'
         }`}
       >
