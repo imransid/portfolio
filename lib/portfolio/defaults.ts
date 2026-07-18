@@ -391,9 +391,27 @@ export const defaultPortfolioData: PortfolioData = {
         number: '08',
         status: '',
       },
+      {
+        name: 'IQ Test',
+        tagline: 'Android consumer app',
+        description:
+          'Built IQ Test, a Jumatechs app live on Google Play: a React Native front end with a Django and PostgreSQL backend and Firebase push notifications.',
+        period: '',
+        category: 'Consumer Mobile',
+        tech: ['React Native', 'Redux', 'Reanimated', 'Firebase', 'Django', 'PostgreSQL'],
+        links: [
+          {
+            label: 'Google Play',
+            url: 'https://play.google.com/store/apps/details?id=com.iqapp.test',
+          },
+        ],
+        accent: '',
+        number: '13',
+        status: 'Live',
+      },
     ],
     archiveLine:
-      'Also shipped: IQApp Test (Django, GraphQL, Stripe, 2025), Team Pharma (NestJS microservices, 2024), JTI Sheikh (Deep AR, 2021).',
+      'Also shipped: Team Pharma (NestJS microservices, 2024), JTI Sheikh (Deep AR, 2021).',
   },
   skills: {
     sectionNum: '04',
