@@ -242,6 +242,19 @@ export const defaultPortfolioData: PortfolioData = {
         status: 'In production',
       },
       {
+        name: 'Go Style Business',
+        tagline: 'Salon business management',
+        description:
+          'A salon business management platform, in production serving real salons. Backend lead. Multi-tenant NestJS and Prisma backend on PostgreSQL, deployed on Docker Swarm.',
+        period: '',
+        category: 'Salon SaaS',
+        tech: ['NestJS', 'Prisma', 'PostgreSQL', 'Docker Swarm'],
+        links: [{ label: 'business.gostyle.uk', url: 'https://business.gostyle.uk/' }],
+        accent: '',
+        number: '11',
+        status: 'In production',
+      },
+      {
         name: 'Bazzile',
         tagline: 'Real Estate Marketplace',
         description:
