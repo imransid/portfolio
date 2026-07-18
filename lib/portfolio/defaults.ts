@@ -97,6 +97,12 @@ export const defaultPortfolioData: PortfolioData = {
       },
       { n: '{{appsOnStores}}', label: 'Apps I worked on that are live on public stores' },
     ],
+    affiliation: {
+      lead: 'I also lead ',
+      linkLabel: 'Bolt Fusion Tech',
+      linkUrl: 'https://boltfusiontech.com',
+      tail: ', a senior engineering team.',
+    },
   },
   experience: {
     sectionNum: '02',
@@ -207,6 +213,19 @@ export const defaultPortfolioData: PortfolioData = {
         links: [{ label: 'warmchats.com', url: 'https://www.warmchats.com' }],
         accent: '',
         number: '09',
+        status: 'Live',
+      },
+      {
+        name: 'OPAL',
+        tagline: 'Curated fashion + tech',
+        description:
+          'A curated fashion and tech e-commerce store I co-founded and built: catalogue, cart, secure checkout and order tracking.',
+        period: '',
+        category: 'E-commerce',
+        tech: ['Next.js', 'Firebase', 'Firestore'],
+        links: [{ label: 'opal-sooty.vercel.app', url: 'https://opal-sooty.vercel.app/' }],
+        accent: '',
+        number: '10',
         status: 'Live',
       },
       {

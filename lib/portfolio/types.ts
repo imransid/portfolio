@@ -103,6 +103,8 @@ export type PortfolioData = {
     headlineLine3Italic: string;
     bodyParagraphs: string[];
     stats: Stat[];
+    /** Optional one-line affiliation with a link; renders on both / and /hire. */
+    affiliation?: { lead: string; linkLabel: string; linkUrl: string; tail: string };
   };
   experience: {
     sectionNum: string;

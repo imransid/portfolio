@@ -348,6 +348,14 @@ export function normalizePortfolioData(input: unknown): PortfolioData {
       ),
       bodyParagraphs: strArr(about.bodyParagraphs, d.about.bodyParagraphs),
       stats: normalizeStats(about.stats, d.about.stats),
+      affiliation: isRecord(about.affiliation)
+        ? {
+            lead: str(about.affiliation.lead, d.about.affiliation?.lead ?? ''),
+            linkLabel: str(about.affiliation.linkLabel, d.about.affiliation?.linkLabel ?? ''),
+            linkUrl: str(about.affiliation.linkUrl, d.about.affiliation?.linkUrl ?? ''),
+            tail: str(about.affiliation.tail, d.about.affiliation?.tail ?? ''),
+          }
+        : d.about.affiliation,
     },
     experience: {
       sectionNum: str(experience.sectionNum, d.experience.sectionNum),

@@ -23,12 +23,20 @@ export type Topology = {
 
 export const SPINE_MIN_DEGREE = 3;
 
+/**
+ * Frontend frameworks are listed as chips on a card (they render straight from
+ * project.tech) but are deliberately NOT backend map edges, so they never form a
+ * topology hub. Everything else a product lists becomes an edge.
+ */
+const NON_EDGE_TECH = new Set(['Next.js']);
+
 export function deriveTopology(projects: PortfolioData['projects']): Topology {
   const products: Project[] = [...projects.featured, ...projects.more];
 
   const byTech = new Map<string, string[]>();
   for (const p of products) {
     for (const tech of p.tech) {
+      if (NON_EDGE_TECH.has(tech)) continue; // chip-only, not a backend edge
       const list = byTech.get(tech) ?? [];
       list.push(p.name);
       byTech.set(tech, list);

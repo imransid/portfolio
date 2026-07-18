@@ -40,6 +40,21 @@ export default function About({ data }: AboutProps) {
               ))}
             </div>
 
+            {data.affiliation ? (
+              <p className="mt-8 max-w-3xl font-sans text-[15px] leading-relaxed text-carbon/80">
+                {data.affiliation.lead}
+                <a
+                  href={data.affiliation.linkUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-signal-deep underline decoration-signal/40 underline-offset-2 transition-colors hover:decoration-signal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+                >
+                  {data.affiliation.linkLabel}
+                </a>
+                {data.affiliation.tail}
+              </p>
+            ) : null}
+
             <dl className="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-line pt-10 md:grid-cols-4">
               {data.stats.map((stat) => (
                 <div key={stat.label} className="flex flex-col">
