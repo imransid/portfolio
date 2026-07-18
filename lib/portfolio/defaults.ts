@@ -229,6 +229,19 @@ export const defaultPortfolioData: PortfolioData = {
         status: 'Live',
       },
       {
+        name: 'FanLock',
+        tagline: 'Creator content protection',
+        description:
+          'A content-protection platform for online creators that scans Telegram, Google and social media for leaked content and automates takedowns. Backend lead. Django backend, Next.js frontend.',
+        period: '',
+        category: 'Content Protection',
+        tech: ['Next.js', 'Django'],
+        links: [{ label: 'fanlock-pi.vercel.app', url: 'https://fanlock-pi.vercel.app/' }],
+        accent: '',
+        number: '12',
+        status: 'Live',
+      },
+      {
         name: 'Balanzify',
         tagline: 'HR & Payroll Microservices',
         description:
