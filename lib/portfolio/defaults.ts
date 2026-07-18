@@ -409,6 +409,24 @@ export const defaultPortfolioData: PortfolioData = {
         number: '13',
         status: 'Live',
       },
+      {
+        name: 'Cleva',
+        tagline: 'Bill-payment wallet',
+        description:
+          'Built Cleva, a Jumatechs app live on Google Play: a wallet for adding a card and paying bills, on a React Native front end with a Django and PostgreSQL backend.',
+        period: '',
+        category: 'Fintech Mobile',
+        tech: ['React Native', 'Redux', 'Reanimated', 'Firebase', 'Django', 'PostgreSQL'],
+        links: [
+          {
+            label: 'Google Play',
+            url: 'https://play.google.com/store/apps/details?id=com.cleva.paybill',
+          },
+        ],
+        accent: '',
+        number: '14',
+        status: 'Live',
+      },
     ],
     archiveLine:
       'Also shipped: Team Pharma (NestJS microservices, 2024), JTI Sheikh (Deep AR, 2021).',
