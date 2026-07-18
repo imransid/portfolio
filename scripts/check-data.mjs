@@ -72,7 +72,9 @@ if (doc) {
   // interpolate derived tokens exactly as the app does
   const roles = doc.experience?.roles ?? [];
   const projects = [...(doc.projects?.featured ?? []), ...(doc.projects?.more ?? [])];
-  const years = roles.length ? wholeYears(roles.map((r) => start(r.period)).sort((a, b) => a - b)[0], NOW) : 0;
+  const startDates = roles.map((r) => start(r.period));
+  if (doc.experience?.careerStart) startDates.push(start(doc.experience.careerStart));
+  const years = startDates.length ? wholeYears(startDates.slice().sort((a, b) => a - b)[0], NOW) : 0;
   const go = projects.find((p) => p.name === 'Go Smart');
   const goYears = go?.period ? wholeYears(end(go.period), NOW) : 0;
   const appsOnStores = projects.filter((p) => (p.links ?? []).some((l) => /apps\.apple\.com|play\.google\.com/.test(l.url))).length;

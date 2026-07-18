@@ -110,6 +110,7 @@ export const defaultPortfolioData: PortfolioData = {
     titleLead: '{{years}} years of ',
     titleEmphasis: 'shipping things',
     titleTail: ' across mobile, backend and the messy bits in between.',
+    careerStart: '2019',
     roles: [
       {
         company: 'Jumatechs',

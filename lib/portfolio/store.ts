@@ -364,6 +364,7 @@ export function normalizePortfolioData(input: unknown): PortfolioData {
       titleEmphasis: str(experience.titleEmphasis, d.experience.titleEmphasis),
       titleTail: str(experience.titleTail, d.experience.titleTail),
       roles: normalizeRoles(experience.roles, d.experience.roles),
+      careerStart: str(experience.careerStart, d.experience.careerStart ?? ''),
     },
     projects: {
       sectionNum: str(projects.sectionNum, d.projects.sectionNum),

@@ -113,6 +113,9 @@ export type PortfolioData = {
     titleEmphasis: string;
     titleTail: string;
     roles: ExperienceRole[];
+    /** Optional career-start anchor (e.g. '2019'). The earliest of this and every
+     * role start drives {{years}}, so experience before the first listed role counts. */
+    careerStart?: string;
   };
   projects: {
     sectionNum: string;

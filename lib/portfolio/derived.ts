@@ -35,14 +35,21 @@ function wholeYears(from: Date, to: Date): number {
   return Math.max(0, Math.floor((to.getTime() - from.getTime()) / (365.25 * 24 * 3600 * 1000)));
 }
 
-/** Years from the earliest role start to now (floored, never rounded up). */
-export function deriveExperienceYears(roles: ExperienceRole[], now: Date): number {
-  if (!roles.length) return 0;
-  let earliest = periodStart(roles[0].period, now);
-  for (const r of roles) {
-    const s = periodStart(r.period, now);
-    if (s < earliest) earliest = s;
-  }
+/**
+ * Years from the earliest start to now (floored, never rounded up). The earliest
+ * is the min of an optional careerStart anchor and every role start, so real
+ * professional experience before the first listed role still counts.
+ */
+export function deriveExperienceYears(
+  roles: ExperienceRole[],
+  now: Date,
+  careerStart?: string,
+): number {
+  const starts = roles.map((r) => periodStart(r.period, now));
+  if (careerStart && careerStart.trim()) starts.push(bound(careerStart, false, now));
+  if (!starts.length) return 0;
+  let earliest = starts[0];
+  for (const s of starts) if (s < earliest) earliest = s;
   return wholeYears(earliest, now);
 }
 
@@ -80,7 +87,7 @@ function deepReplaceStrings<T>(value: T, fn: (s: string) => string): T {
  */
 export function interpolateForDisplay(data: PortfolioData, now: Date = new Date()): PortfolioData {
   const values: Record<string, string> = {
-    years: String(deriveExperienceYears(data.experience.roles, now)),
+    years: String(deriveExperienceYears(data.experience.roles, now, data.experience.careerStart)),
     goSmartYears: String(deriveGoSmartYears(data.projects, now)),
     appsOnStores: String(deriveAppsOnStores(data.projects)),
   };
