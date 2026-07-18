@@ -17,7 +17,7 @@ export default function Skills({ data }: SkillsProps) {
   );
 
   const languages = data.languages
-    .map((lang) => `${lang.name} (${lang.note})`)
+    .map((lang) => (lang.note ? `${lang.name} (${lang.note})` : lang.name))
     .join(' · ');
 
   return (

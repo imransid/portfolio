@@ -405,7 +405,7 @@ export const defaultPortfolioData: PortfolioData = {
     languages: [
       { name: 'English', note: 'fluent' },
       { name: 'Bangla', note: 'native' },
-      { name: 'German', note: 'basic' },
+      { name: 'German', note: '' },
     ],
   },
   contact: {
